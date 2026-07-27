@@ -2,7 +2,8 @@
 
 > A Power BI sales-operations dashboard designed to track outbound outreach, monitor follow-up discipline, analyse pipeline health, and identify high-potential prospecting segments.
 
-![Project preview](assets/images/project-preview.png)
+<img width="1063" height="596" alt="page-1-executive-overview png" src="https://github.com/user-attachments/assets/513b82b7-3aa7-4a53-a5bc-e2283806f3a1" />
+
 
 ## Business Problem
 
@@ -175,19 +176,23 @@ Dim_Lead[Suburb] & ", South Africa"
 
 ### Page 1: Executive Overview
 
-![Executive Overview](assets/images/page-1-executive-overview.png)
+<img width="1063" height="596" alt="page-1-executive-overview png" src="https://github.com/user-attachments/assets/35bc20a3-9a8b-4809-a164-00be374a3623" />
+
 
 ### Page 2: Outreach Performance
 
-![Outreach Performance](assets/images/page-2-outreach-performance.png)
+<img width="1063" height="594" alt="page-2-outreach-performance" src="https://github.com/user-attachments/assets/49cf78ee-81d5-461a-b439-2381407edfd7" />
+
 
 ### Page 3: Pipeline Health and Conversion
 
-![Pipeline Health and Conversion](assets/images/page-3-pipeline-health.png)
+<img width="1064" height="593" alt="page-3-pipeline-health" src="https://github.com/user-attachments/assets/38d05e7e-60fb-4ae9-8684-a54d94a01783" />
+
 
 ### Page 4: Geographic and ICP Insights
 
-![Geographic and ICP Insights](assets/images/page-4-geographic-icp.png)
+<img width="1062" height="598" alt="page-4-geographic-icp" src="https://github.com/user-attachments/assets/7e7a9017-c578-4351-be93-15475fa42c04" />
+
 
 ## Key Insights and Operational Value
 
