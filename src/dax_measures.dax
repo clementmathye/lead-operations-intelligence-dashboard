@@ -1,0 +1,131 @@
+// =========================================================================
+// LEAD OPERATIONS INTELLIGENCE DASHBOARD
+// Core DAX Measures & Calculated Columns
+// Author: Clement Mathye
+// =========================================================================
+
+// -------------------------------------------------------------------------
+// 1. CORE VOLUME & ACTIVITY METRICS
+// -------------------------------------------------------------------------
+
+// Total unique leads generated and tracked in the system
+Total Leads = 
+DISTINCTCOUNT(Dim_Lead[Lead ID])
+
+// Total recorded outreach actions (Calls, WhatsApps, Proposals, Meetings)
+Total Activities = 
+COUNTROWS(Fact_Activities)
+
+// Total unique leads who have progressed past the "Untouched" stage
+Calls Made = 
+CALCULATE(
+    DISTINCTCOUNT(Dim_Lead[Lead ID]),
+    NOT(ISBLANK(Dim_Lead[Lead ID])),
+    Dim_Lead[Pipeline Stage] <> "Untouched"
+)
+
+// Total unique leads engaged via WhatsApp messaging across active stages
+WhatsApps Sent = 
+CALCULATE(
+    DISTINCTCOUNT(Dim_Lead[Lead ID]),
+    NOT(ISBLANK(Dim_Lead[WhatsApp Number])),
+    Dim_Lead[Pipeline Stage] IN {
+        "Lead Magnet Sent",
+        "Followed Up",
+        "Lead Engaged",
+        "Booked Meeting/Audit Sent",
+        "Closed"
+    }
+)
+
+// Total formal proposals sent to prospective clients
+Proposals Sent = 
+CALCULATE(
+    [Total Activities], 
+    Fact_Activities[Outcome] = "Proposal Sent"
+)
+
+// Total discovery audits and sales meetings successfully booked
+Meetings Booked = 
+CALCULATE(
+    [Total Activities], 
+    Fact_Activities[Outcome] = "Meeting Booked"
+)
+
+
+// -------------------------------------------------------------------------
+// 2. PIPELINE HEALTH & FUNNEL VELOCITY
+// -------------------------------------------------------------------------
+
+// Total leads currently sitting in active, unclosed sales funnel stages
+Active Leads = 
+CALCULATE(
+    [Total Leads],
+    Dim_Lead[Pipeline Stage] IN {
+        "Untouched",
+        "Cold Called",
+        "Lead Magnet Sent",
+        "Followed Up",
+        "Lead Engaged",
+        "Booked Meeting/Audit Sent"
+    }
+)
+
+// Total accounts successfully converted into paying clients (+0 handles blanks)
+Won Clients = 
+CALCULATE(
+    [Total Leads], 
+    Dim_Lead[Pipeline Stage] = "Closed"
+) + 0
+
+// Measures overall sales funnel efficiency from initial lead to closed client
+Lead to Client Conversion % = 
+DIVIDE([Won Clients], [Total Leads], 0)
+
+// Measures SDR pitch efficiency (Meetings booked per engaged lead)
+Meeting Rate % = 
+DIVIDE([Meetings Booked], [Calls Made], 0)
+
+// Calculates the average residency duration of opportunities in each funnel stage
+Average Days in Stage = 
+AVERAGE(Fact_Pipeline_History[Days in Stage])
+
+
+// -------------------------------------------------------------------------
+// 3. FINANCIAL & TARGETING KPIS
+// -------------------------------------------------------------------------
+
+// Total potential revenue currently sitting across all tracked opportunities
+Pipeline Value = 
+SUM(Fact_Opportunities[Estimated Value])
+
+// Total confirmed revenue generated from successfully closed deals
+Won Value = 
+CALCULATE(
+    SUM(Fact_Opportunities[Proposal Value]),
+    Fact_Opportunities[Outcome] = "Won"
+)
+
+// Calculates the proportion of total accounts classified as High Priority ICP targets
+High-Priority Target % = 
+DIVIDE(
+    CALCULATE(
+        DISTINCTCOUNT(Dim_Lead[Lead ID]),
+        Dim_Lead[Priority Level] = "HIGH"
+    ),
+    DISTINCTCOUNT(Dim_Lead[Lead ID]),
+    0
+)
+
+
+// -------------------------------------------------------------------------
+// 4. GEOSPATIAL MODELING (Calculated Columns)
+// -------------------------------------------------------------------------
+
+// Concatenates suburb with country string for Azure Maps geocoding precision
+Full Location = 
+IF(
+    ISBLANK(Dim_Lead[Suburb]) || Dim_Lead[Suburb] = "",
+    BLANK(),
+    CONCATENATE(Dim_Lead[Suburb], ", South Africa")
+)
