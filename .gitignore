@@ -1,0 +1,27 @@
+# Environment variables and secrets
+.env
+.env.*
+*.env
+
+# Credentials and API keys
+credentials.json
+service-account.json
+secrets.json
+config.local.json
+
+# Power BI specific & Database exports
+*.pbix
+*.pbit
+*.sql
+*.db
+*.sqlite
+private-data/
+client-data/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
