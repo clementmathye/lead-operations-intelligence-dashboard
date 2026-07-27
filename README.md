@@ -248,5 +248,7 @@ lead-operations-intelligence-dashboard/
 ## Contact
 
 **GitHub:** [github.com/clementmathye](https://github.com/clementmathye)  
-**LinkedIn:** Add your LinkedIn URL here  
-**Portfolio:** Add your portfolio website URL here
+**LinkedIn:** www.linkedin.com/in/clement-mathye
+
+
+
